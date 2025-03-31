@@ -1,0 +1,74 @@
+{% extends 'mains.html' %}
+
+{% block content%}
+<style>
+  input[type=text]{
+    width: 50%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  label{
+      display:block;
+      left:0%;
+      font-style:Bold;
+      font-family:serif;
+  }
+  textarea {
+      display:inline;
+      width: 50%;
+      height: 150px;
+      padding: 10px 20px;
+      box-sizing: border-box;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+      resize: none;
+      margin-left:-10px
+    }
+    
+</style>
+   
+<form method="POST"  action="#" enctype = "multipart/form-data">
+     {% csrf_token %}
+     <input type ="text" name ="title" class="form-control" value="{{form.title}} ">
+     <input type ="text" name ="Description" class ="form-control" value="{{form.description}}">
+
+    <input type="file"  name="image"  class ="form-control w-50 " style ="margin-left:25%" />
+    <img src="{{form.BlogIm.url}}" alt ="no image" style="width:200px ;height:200px;display:block;margin-left:25%"/>
+
+   {% if  Notath == "auth"%}
+    <button class="btn btn-primary" type="submit" name="update"  style="width: 20%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    
+    border-radius: 4px;
+    cursor: pointer;">Update</button>
+    <a class="btn btn-secondary"  name="Cancle" href="{% url 'home' %}" >Back</a>
+
+    {% else%}
+    <a class="btn btn-secondary"  name="Cancle" href="{% url 'home' %}" style="width: 20%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;" >Back</a>
+
+  
+{% endif%}
+    </div>
+</form>
+  </div>
+ 
+<br>
+
+
+{% endblock %}

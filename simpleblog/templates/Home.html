@@ -1,0 +1,142 @@
+{% extends 'mains.html' %}
+{% load i18n %}
+{% load static %}
+{% block content %}
+
+<h3 ><a href="{% url 'create-blog' %}" 
+  style="text-decoration:none;width:15%;float: right; marign-left:0px" class="btn btn-primary w-40 h-20">{% trans 'CBlog' %}</a></h3>
+ 
+{% if blog_value %}
+  <div class="container pt-4 mt-5">
+    {% for blog in blog_value.object_list %}
+      <div class="card-header" style="text-align:left">
+        <small style="font-family: cursive;">{% trans 'Posted by' %}</small>
+        <a href="{% if blog.User_ID.id == user.id %}{% url 'user-p' blog.User_ID.username %}{% else %}
+        {% url 'user-d' blog.User_ID.id %}
+        {% endif %}" 
+           style="text-decoration:none; font-style:italic">
+          @{{ blog.User_ID.username }}
+        </a>
+        {% if user.username == blog.User_ID.username %}
+          <div class="d-flex float-end">
+            <div style="align-item:right;">
+              <a class="btn btn-success" name="update" href="{% url 'update_blog' blog.id %}" style="width:60px;text-color:white"><i class="fas fa-edit"></i></a>
+              <a class="btn btn-danger" name="delete" href="{% url 'delete_blog' blog.id %}" style="width:60px;text-color:white"><i class="bi bi-archive-fill"></i></a>
+            </div> 
+          </div>
+        {% endif %}
+      </div>
+      <div class="row justify-content-between">
+        <div class="col-lg-7">
+          <div class="card post-item bg-transparent border-0 mb-5">
+            <a href="{% url 'details' blog.id %}">
+              <img class="card-img-top rounded-0" src="{{ blog.BlogIm.url }}" alt="">
+            </a>
+            <div class="card-body px-0">
+              <h2 class="card-title">
+                <a class="text-white opacity-75-onHover" href="{% url 'details' blog.id %}"> {{ blog.title }}</a>
+              </h2>
+              <ul class="post-meta mt-3">
+                <li class="d-inline-block mr-3">
+                  <span class="fas fa-clock text-primary"></span>
+                  <a class="ml-1" href="#"> {% trans 'Createdat' %} :-{{ blog.Created | timesince }} {% trans 'ago' %}</a>
+                </li>
+                <li class="d-inline-block">
+                  <span class="fas fa-list-alt text-primary"></span>
+                  <a class="ml-1" href="{{ blog.BlogIm.url }}">{% trans 'Photo' %}</a>
+                </li>
+              </ul>
+              <p class="card-text my-4">{{ blog.description | truncatechars:50 }}...</p>
+              <a href="{% url 'details' blog.id %}" class="btn btn-primary">{% trans 'Read More' %}<img src="{% static 'images/arrow-right.png' %}" alt=""></a>
+            </div>
+          </div>
+          <form method="POST" action="{% url 'blog_like' blog.id %}">
+            {% csrf_token %}
+            {% if blog.Likes.count > 1 %}
+              {{ blog.Likes.count }} {% trans 'Likes' %}
+            {% elif blog.Likes.count == 1 %}
+              {{ blog.Likes.count }} {% trans 'Like' %}
+            {% elif blog.Likes.count == 0 %}
+              {{ 0 }} {% trans 'Like' %}
+            {% endif %}
+            {% if request.user.is_authenticated %}
+              {% if not user in blog.Likes.all %}
+                <button type="submit" name="blog.id" value="{{ blog.id }}" class="btn btn-secondary">
+                  <i class="fa-regular fa-thumbs-up"></i>
+                </button> 
+              {% else %}
+                <button type="submit" name="blog.id" value="{{ blog.id }}" class="btn btn-danger btnlik">
+                  <i class="fa-regular fa-thumbs-down"></i>
+                </button>
+              {% endif %}
+            {% endif %}
+          </form>
+        </div>
+        <div class="col-lg-4 col-md-5">
+          <div class="widget text-center">
+            <img class="author-thumb-sm rounded-circle d-block mx-auto" src="{{ blog.user_profile.Image.url }}" alt="">
+            <h2 class="widget-title text-white d-inline-block mt-4">About {{ blog.user_profile.Profileowner }}</h2>
+            <p class="mt-4">{{ blog.user_profile.Bio }}</p>
+            <ul class="list-inline mt-3">
+              <li class="list-inline-item">
+                <a href="#!" class="text-white text-primary-onHover p-2">
+                  <span class="fab fa-twitter"></span>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#!" class="text-white text-primary-onHover p-2">
+                  <span class="fab fa-facebook-f"></span>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#!" class="text-white text-primary-onHover p-2">
+                  <span class="fab fa-instagram"></span>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#!" class="text-white text-primary-onHover p-2">
+                  <span class="fab fa-linkedin-in"></span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="widget bg-dark p-4 text-center">
+            <h2 class="widget-title text-white d-inline-block mt-4 text-start">Subscribe Blog</h2>
+            <p class="mt-4">{{ blog.description | truncatechars:100 }}</p>
+            <form action="">
+              {% csrf_token %}
+              <div class="form-group">
+                <input type="email" class="form-control bg-transparent rounded-0 my-4" placeholder="Your Email Address">
+                <button class="btn btn-primary" type="submit">Subscribe Now <img src="{% static 'images/arrow-right.png' %}" alt=""></button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p class="btn btn-secondary"> No content uploaded</p>
+{% endif %}
+
+<div class="container">
+  <div class="pagination-container text-light">
+    <div>
+      {% trans 'Showingpage' %} {{ blog_value.number }} of {{ blog_value.paginator.num_pages }}
+    </div>
+    <div class="float-right">
+      <ul class="pagination align-right float-end">
+        {% if blog_value.has_previous %}
+          <li {% if blog_value.number == 1 %} class="page-item active" {% endif %}><a class="page-link" href="?page=1">&laquo; 1</a></li>
+          <li class="page-item"> <a class="page-link" href="?page={{ blog_value.previous_page_number }}">{% trans 'Previous' %}</a></li>
+        {% endif %}
+        {% if blog_value.has_next %} 
+          <li class="page-item"> <a class="page-link" href="?page={{ blog_value.next_page_number }}">{% trans 'Next' %} </a></li>
+          <li class="page-item"> <a class="page-link" href="?page={{ blog_value.paginator.num_pages }}">{{ blog_value.paginator.num_pages }} &raquo;</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

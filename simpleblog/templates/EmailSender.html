@@ -1,0 +1,28 @@
+{% extends 'mains.html' %}
+{% load crispy_forms_tags %}
+{% block content%}
+{% if emailaddes%}
+{{emailaddes}}
+
+{% endif %}
+<form  method = "POST" action ="{% url 'sendemail' %}"  >
+    {% csrf_token%}
+    {% if send %}
+    {{ send}}
+
+    {% endif%}
+<div class="mb-3">
+    <label for="exampleFormControlInput1" class="form-label">
+        Email address</label>
+    <input type="email" class="form-control" name="email"
+    placeholder="Enter You Email Address..">
+  </div>
+  <div class="mb-3">
+    <label for="exampleFormControlTextarea1" 
+    class="form-label">Message Body</label>
+    <textarea class="form-control" name="body" rows="3"></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary">Send</button>
+
+</form>
+{% endblock %}

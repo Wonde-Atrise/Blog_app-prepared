@@ -1,0 +1,32 @@
+{% extends 'mains.html' %}
+
+{% block content%}
+
+<form action="#" method="POST">
+   
+  {% csrf_token %}
+    <div class="container w-50">
+      <label for="uname"><b>Username</b></label>
+      <input type="text" placeholder="Enter Username" name="username" required>
+  
+      <label for="psw"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="password" required>
+  
+      <button type="submit">Login</button><small> Don't have an account register here</small>
+      <a href="{% url 'register' %}" style=" text-decoration:none;font-family:serif;font-style:ital;"> Register</a>
+     
+    </div>
+  
+    <div class="container" style="background-color:#f1f1f1">
+      <a type="button" class="cancelbtn" href="{%url 'home'%}" >Cancel</a>
+      
+    </div>
+    <div class="container" style="background-color:#f1f1f1">
+      Forgot your password?<a type="button" class="cancelbtn" href="{%url 'password_reset'%}" >Reset Here</a>
+      
+    </div>
+  </form>
+  
+  {% endblock %}
+
+  

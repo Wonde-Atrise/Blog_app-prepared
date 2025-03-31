@@ -1,0 +1,90 @@
+
+{% load i18n %}
+<nav class="navbar navbar-expand-lg   navbar-dark bg-dark " >
+  <div>
+      <form class="d-flex" role="search" method="GET" action ="{% url 'search' %}">
+        
+           
+        <input class="form-control " type="search" placeholder="Search" value ="{{searched}}"  name ="searched">
+        <button class="btn btn-btn-dark btn-outline-success text-bg-dark" type="submit">Search</button>
+      </form> 
+    </div>
+     
+    
+        
+    <div class="container mt-20 " style ="margin-left:5px" >
+      <a class="navbar-brand" href="{% url 'home'%}" style="font-family:Helvetica" ><small style="font-size:40px ; text-color: red;">B</small>log APP</a>
+      
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#contentNav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" 
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="Lo_regi" style="font-family:serif">
+        <div class="collapse navbar-collapse " id="contentNav"  >
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0"> 
+            {% if request.user.is_authenticated %}
+            <div class="dropdown" >
+              {% if userprofile %}
+             <a href ="{{userprofile.Image.url}}">
+            
+              <img src ="{{userprofile.Image.url}}"  alt="No image"   style = "height: 50px;
+              width: 50px;
+              background-color: #bbb;
+              border-radius: 50%;
+              display: inline-block;"  />
+             </a>
+              <a class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              
+              </a>
+
+              {% else %}
+                 <a href ="{{userprofile.Image.url}}">
+            
+              <img src ="{{userprofile.Image.url}}"  alt="No image"   style = "height: 50px;
+              width: 50px;
+              background-color: #bbb;
+              border-radius: 50%;
+              display: inline-block;"  />
+             </a>
+              <a class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              
+              </a>
+              {% endif%}
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{% url 'user-p' request.user.username%}">Account Setting</a></li>
+                <li><a class="dropdown-item" href="{% url 'logout'%}">Logout</a></li>
+              </ul>
+           
+          </div>
+                  
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'login'%}">Login</a>
+            </li>
+            <li class="nav-item"> 
+              <a class="nav-link" href="{% url 'register' %}">Register</a>
+            </li>
+           
+         
+          </ul>
+         
+        </div>
+        {%endif%}
+  
+        <div>
+          </div>
+         
+        <div style="">
+          {% get_current_language as LANGUAGE_CODE %}
+          {% get_available_languages as LANGUAGES %}
+          {% get_language_info_list for LANGUAGES as languages %}
+          {% for lang in languages %}
+          
+          <a type ="submit" class ="btn btn-primary" href="/{{lang.code}}" style ="display:block;margin-top:10px"
+          >{{lang.code.upper}}</a>
+          {% endfor %}
+          
+         
+          <div>
+            
+  </nav>

@@ -1,0 +1,4 @@
+https://www.pythonanywhere.com
+https://htmx.org/
+postsql
+localization

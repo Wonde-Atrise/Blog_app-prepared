@@ -1,0 +1,58 @@
+{% extends 'mains.html'%}
+{% block content %}
+{% load static %}
+{% load i18n %}
+    <!-- START preloader-wrapper -->
+    <div class="preloader-wrapper">
+        <div class="preloader-inner">
+            <div class="spinner-border text-red"></div>
+        </div>
+    </div>
+    {% if post %}
+    
+                <div class="row justify-content-between mr-auto">
+            
+                    {% for detail in post %}
+                   
+                    <div class="col-lg-10">
+                        {% if user.username == detail.User_ID.username %}
+                        <div class="d-flex float-end">
+                          
+                         
+                       </p>
+                       <div style ="align-item:right;">
+                        <a class="btn btn-success"  name="update" href="{%  url  'update_blog' detail.id%} " style="width:60px ;text-color:white"><i class="fas fa-edit"></i></a>
+                       <a class="btn btn-danger "  name="delete" href="{% url 'delete_blog' detail.id%}" style="width:60px ;text-color:white"><i class="bi bi-archive-fill"></i></a>
+                       </div>  
+                      </div>
+                       {%endif%}
+                    
+                        <img class="img-fluid" style= "width:800px;height:400px" src="{{detail.BlogIm.url}}" alt="no image">
+                        <h1 class="text-white add-letter-space mt-4">{{detail.title}}</h1>
+                        <ul class="post-meta mt-3 mb-4">
+                            <li class="d-inline-block mr-3">
+                                <span class="fas fa-clock text-primary"></span>
+                                <a class="ml-1" href="#">{{detail.Created | timesince }}</a>
+                            </li>
+                            <li class="d-inline-block">
+                                <span class="fas fa-list-alt text-primary"></span>
+                                <a class="ml-1">Photography</a>
+                            </li>
+                        </ul>
+
+                        <p>{{detail.description}}</p>
+                        
+                       
+
+                       
+                    </div>
+                    {% endfor %}
+                   
+            </div>
+         {% else %}
+         <div class ="text-danger  text-center ">
+         <h3> You have no posts </h3>
+
+         </div>
+            {% endif%}
+       {% endblock %}

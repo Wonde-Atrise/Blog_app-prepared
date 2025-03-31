@@ -1,0 +1,124 @@
+
+<!--
+<div class="container " style="margin-left:20%; margin-bottom:-70px">
+  
+
+
+
+<div class="card  col-8 text-center mt-2 ">
+    <div class="card-header" style="text-align:left" >
+     
+      <small style="font-family: cursive;">{% trans 'Posted by' %}
+
+      </small><a href="{% if blog.User_ID.id == user.id %}
+{% url 'user-p' blog.User_ID.username %}
+{%else%}#{%endif%}"  style="text-decoration:none; font-style:italic">
+        @{{blog.User_ID.username}}
+      </a>
+     </p>
+    {% if user.username == blog.User_ID.username %}
+    <div class="d-flex float-end">
+      
+
+     
+   </p>
+   <div style ="margin-top:-30px">
+    <a class="btn btn-primary"  name="update" href="{%  url  'update_blog' blog.id%} " style="width:60px ;text-color:white"><i class="fas fa-edit"></i></a>
+   <a class="btn btn-danger "  name="delete" href="{% url 'delete_blog' blog.id%}" style="width:60px ;text-color:white"><i class="bi bi-archive-fill"></i></a>
+   </div>  
+  </div>
+   {%endif%}
+    </div>
+
+
+
+
+
+
+ <a href ="{{blog.BlogIm.url}}">
+    <img src="{{blog.BlogIm.url}}" alt="Not image" class="w-50 h-50"/>
+ </a>
+    <div class="card-body">
+      <h5 class="card-title" style="font-family: emoji; font-size:30px"><a href="{% url 'details' blog.id %}" style="text-decoration:none;">{{blog.title}}</a></h5>
+    </div>
+    <p style =" color:gray;position:relative;margin-left:500px;font-family:TimeNewRomen;font-size:15px">
+       {% trans  'Createdat'%} :-{{blog.Created | timesince }}  {% trans 'ago' %}
+      
+        <div class ="  d-flex float-start" style="width:100px">
+          
+
+
+
+
+
+
+
+<form method="POST" action="{% url 'blog_like' blog.id%}">
+  {% csrf_token %}
+  {% if blog.Likes.count > 1   %}
+         {{ blog.Likes.count }} {% trans 'Likes' %}
+  {% elif blog.Likes.count == 1  %}          
+         {{ blog.Likes.count }} {% trans 'Like' %}
+
+  {% elif blog.Likes.count == 0  %}          
+  {{ 0 }} {% trans 'Like' %}
+
+  {% endif%}
+  {% if request.user.is_authenticated %}
+       {% if not user in blog.Likes.all %}
+             <button type="submit"  name="blog.id"  value="{{blog.id}} "
+             class="btn btn-secondary " >
+             <i class="fa-regular fa-thumbs-up "></i>
+            
+             </i></button> 
+             {% else %}
+             <button type="submit"  name="blog.id"  value="{{blog.id}}"
+             class="btn btn-danger btnlik" >
+             <i class="fa-regular fa-thumbs-down "></i>
+             </i></button> 
+ 
+            
+        {% endif %}
+  
+     </form>
+    </div>
+  </div>
+ 
+
+
+ 
+<br>
+
+
+{% else %}
+<div style="color:red ;text-align:center; font-size:40px;font-family:TimeNewRomen;">No Post Found</div>
+{% endif%}
+</div>
+
+</div>
+<hr>
+<div class ="container " >
+<div class="pagination-container text-light ">
+  <div class="">
+    {% trans 'Showingpage'%} {{blog_value.number}} of {{ blog_value.paginator.num_pages }}
+  </div>
+  <div class ="float-right">
+  <ul class="pagination align-right float-end ">
+    {% if blog_value.has_previous %}
+    <li {% if blog_value.number == 1 %} class="page-item active" {% endif %}><a class="page-link" href="?page=1">&laquo; 1</a></li>
+    <li class="page-item"> <a class="page-link" href="?page={{ blog_value.previous_page_number }}">{% trans 'Previous' %}</a></li>
+    {% endif %}
+
+    {% if blog_value.has_next %}
+    <li class="page-item"> <a class="page-link" href="?page={{ blog_value.next_page_number }}">{% trans 'Next' %} </a></li>
+    <li class="page-item"> <a class="page-link" href="?page={{ blog_value.paginator.num_pages }}">{{ blog_value.paginator.num_pages}} &raquo;</a></li>
+    {% endif %}
+
+
+    </ul>
+  </div>
+</div>
+</div>
+
+
+-->

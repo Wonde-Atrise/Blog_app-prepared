@@ -1,0 +1,23 @@
+  {% load i18n %}
+  <div class="navbar navbar-dark my-4 p-0 font-primary">
+        <ul class="navbar-nav w-100">
+            <li class="nav-item ">
+                <a class="nav-link text-white px-0 pt-0" href="{% url 'home' %}">Home</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link text-white px-0" href="{% url 'about'  %}">About</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link text-white px-0" href="contact.html">Contact</a>
+            </li>
+             <li class="nav-item ">
+                <a class="nav-link text-white" href="#!" role="button" data-toggle="collapse" data-target="#drop-menu" aria-expanded="false" aria-controls="drop-menu">Posts</a>
+            </li>
+            <li class="nav-item mt-3">
+                <select class="custom-select bg-transparent rounded-0 text-white shadow-none" id="pick-lang">
+                    <option selected value="en">English</option>
+                    <option value="am">Amharic</option>
+                </select>
+            </li>
+        </ul>
+    </div>

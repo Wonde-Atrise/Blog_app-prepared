@@ -1,0 +1,110 @@
+
+{% extends 'mains.html' %}
+{% block content%}
+
+
+{% load i18n %}
+<style>
+footer{
+  margin-top:30px;
+  font:20px TimesNewRomen;
+}
+.btnlik{
+  background-color:blue;
+  font-family:TimesNewRomen;
+}
+</style>
+
+{%if details%}
+
+<a href = "{% url 'home' %}" 
+class ="nav-link" style ="width:100px;font-size:30px">
+<i class="bi bi-skip-backward-circle-fill"></i></a>
+
+<div class="container ">
+<div class="card  col-10  text-center mt-1 ">
+    
+    <div class="card-body">
+    
+      <h5 class="card-title" style="font-family: emoji; font-size:30px">
+        <small>{% trans 'Title'%}:
+
+      </small>{{details.title}}</h5>
+     <p class="card-text" style="color:gray; font-size:20px;font-family:serif">
+       <small style="font:20px red font-type:">{% trans 'Description'%}:
+         </small>{{details.description}}</p>
+
+
+    </div>
+
+  </div>
+</div>
+<br>
+
+{% else %}
+{% endif%}
+
+
+
+<h3  style="font-family:serif;font-size:40px; text-align:left;">{% trans 'Comment here'  %}..</h3>
+
+  
+
+           <div class ="container " style="width:70%;height:20%;overflow:hide;margin-left:-30px" >
+            <ul class="list-group "  >
+              {% for comment in blog %}
+
+              <div class="container">
+             <li class="list-group-item  bg-dark text-light " style="border-outline:3px;
+             margin:2px;font-family:TimesNewRomen;
+             font-size:20px;" id="licontainer"> 
+             <a href="{% url 'user-p' comment.user %}" class="nav-link">
+               @{{comment.user.username}} 
+               
+               <div class="">
+              </a> {{comment.body}}
+               <div  class ="d-flex float-end">
+                 <small>{% trans 'commented' %} {{comment.messageCreated|timesince}} {% trans 'ago' %} <small>
+                  {% if request.user == comment.user %}
+                <a hx-get="{% url 'delete-message' comment.id  %}" class="  btn btn-danger h-0 w-10 "style="margin-top:-60px;margin-right:0px"  hx-confirm ="Are you sure on this" hx-target ="closest #licontainer"
+
+                hx-swap ="outerHTML">
+                  <i class="fa fa-trash" aria-hidden="true"></i></a>
+
+
+                  <a href="{% url 'update-message' comment.id  %}" class="  btn btn-primary h-0 w-10 "style="margin-top:-60px;margin-right:0px" >
+                    <i class="fas fa-edit"></i></a>
+                </div>
+
+                </div>
+                </div>
+              </li>
+              {% endif %}
+
+              {% endfor%}
+              </ul> 
+            </div>
+              <div class ="container ">
+
+              <form action="" method="POST">
+                {% csrf_token %}
+                <input name="body" placeholder="Write your message here.." class =" form-control w-50" style="
+                height:80px;border-outline:none;background-color:gray;color:white;
+                "/>
+                
+              </form>
+           
+            </div>
+              
+                
+                    
+                    
+                 
+             
+           
+        
+            
+
+            
+      
+    {% endblock %}

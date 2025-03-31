@@ -1,0 +1,39 @@
+{% extends 'mains.html' %}
+{% load crispy_forms_tags %}
+{% block content%}
+<style>
+    ul{ 
+        display:none;
+        font-family:serif
+    }
+    .helptext{
+        display:none;
+    }
+    label{
+        font: 20px TimesNewRomen;
+    
+    }
+</style>
+{% if messages %}
+    <div id="message-container">
+        {% for message in messages %}
+            <p class="btn btn-success">{{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+<div class="container w-50">
+    <h3 > Register Page</h3>
+<form method="POST"  action="#">
+    {% csrf_token %}
+   
+{{form}}
+
+<input type="submit"  value="Register" class="btn btn-primary w-50">
+<small>
+Already has an account
+</small>
+<a href="{% url 'login' %}" style="text-decoration:none">Login</a>
+
+</form>
+</div>
+{% endblock %}

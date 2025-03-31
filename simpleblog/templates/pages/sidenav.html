@@ -1,0 +1,81 @@
+{% load static %}
+{% load i18n %}
+<aside><div class="sidenav position-sticky d-flex flex-column justify-content-between">
+    <a class="navbar-brand" href="{% url 'home' %}" class="logo">
+        <img src="{% static 'images/logo.png' %}" alt="">
+    </a>
+    <!-- end of navbar-brand -->
+
+    <div class="navbar navbar-dark my-4 p-0 font-primary">
+        <ul class="navbar-nav w-100">
+            <li class="nav-item active">
+                <a class="nav-link text-white px-0 pt-0" href="{% url 'home' %}">Home</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link text-white px-0" href="{% url 'about' %}">About</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link text-white px-0" href="{% url 'Contact'%}">Contact</a>
+            </li>
+            <li class="nav-item  ">
+                                <a class="nav-link text-white px-0" href="{% url 'posts'%}">Your Posts</a>
+
+            </li>
+       
+        {% if request.user.is_authenticated %}
+
+       <li><a  href="{% url 'logout'%}">Logout</a></li>
+
+         {% else %}
+         <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'login'%}">Login</a>
+            </li>
+            <li class="nav-item"> 
+              <a class="nav-link" href="{% url 'register' %}">Register</a>
+            </li>
+             {% endif %}
+             <li>
+                <form action="{% url 'set_language' %}" method="post" style="display: inline-block; margin: 0; padding: 0; border: none;width:10%;height:20%">
+                    {% csrf_token %}
+                    <input name="language" type="hidden" value="{{ LANGUAGE_CODE }}" style="">
+                    <select name="language" onchange="this.form.submit()" style="padding: 5px; border: 1px solid #ccc; border-radius: 4px; background-color:rgb(187, 186, 186); font-size: 12px; margin:0;">
+                        {% get_current_language as LANGUAGE_CODE %}
+                        {% get_available_languages as LANGUAGES %}
+                        {% for lang_code, lang_name in LANGUAGES %}
+                            <option value="{{ lang_code }}" {% if lang_code == LANGUAGE_CODE %} selected {% endif %}>
+                                {{ lang_name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </form>
+            </li>          </ul>
+         
+        
+
+    </div>
+    <!-- end of navbar -->
+
+    <ul class="list-inline nml-2">
+        <li class="list-inline-item">
+            <a href="#!" class="text-white text-red-onHover pr-2">
+                <span class="fab fa-twitter"></span>
+            </a>
+        </li>
+        <li class="list-inline-item">
+            <a href="#!" class="text-white text-red-onHover p-2">
+                <span class="fab fa-facebook-f"></span>
+            </a>
+        </li>
+        <li class="list-inline-item">
+            <a href="#!" class="text-white text-red-onHover p-2">
+                <span class="fab fa-instagram"></span>
+            </a>
+        </li>
+        <li class="list-inline-item">
+            <a href="#!" class="text-white text-red-onHover p-2">
+                <span class="fab fa-linkedin-in"></span>
+            </a>
+        </li>
+    </ul>
+    <!-- end of social-links -->
+</div></aside>

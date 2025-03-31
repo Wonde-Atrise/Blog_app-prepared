@@ -1,0 +1,60 @@
+{% extends 'mains.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+       
+        .profile-container {
+            margin-top: 50px;
+        }
+
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-details {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-details h2 {
+            color: #343a40;
+            margin-bottom: 20px;
+        }
+
+        .profile-details p {
+            color: #495057;
+            margin-bottom: 10px;
+        }
+
+        .profile-details strong {
+            font-weight: bold;
+            color: #343a40;
+        }
+    </style>
+
+    <div class="container profile-container">
+        <div class="row justify-content-center">
+            {% if user %}
+            <div class="col-md-8 text-center">
+                <img src="{{user.Image.url}}" alt="User Profile" class="profile-image">
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-8 profile-details">
+                <h2 class="text-center">User Profile</h2>
+                <p><strong>Username:</strong> {{user.Profileowner}}</p>
+                <p><strong>Email:</strong> {{user_de.email}}</p>
+                <p><strong>Bio:</strong> {{user.Bio}}</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+ {% endblock%}

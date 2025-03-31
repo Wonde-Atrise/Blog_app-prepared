@@ -1,0 +1,38 @@
+
+{% extends 'mains.html' %}
+{% block content%}
+
+<style>
+footer{
+  margin-top:30px;
+  font:20px TimesNewRomen;
+}
+.btnlik{
+  background-color:blue;
+  font-family:TimesNewRomen;
+}
+</style>
+
+
+              <div class ="container ">
+
+              <form  method="POST"action="" >
+                {% csrf_token %}
+                <input placeholder="Update your message here.." class =" form-control w-50" style="
+                height:80px;border-outline:none;background-color:gray;color:white;
+                " name ="msg" value="{{mesgb}}"/>
+                <input type= "submit"  value= "Update" class ="btn btn-primary float-start " style= "width:200px;padding:10px;margin:10px;">
+              </form>
+           
+            </div>
+              
+                
+                    
+                    
+                 
+             
+           
+        
+            
+      
+    {% endblock %}

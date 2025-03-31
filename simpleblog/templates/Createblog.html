@@ -1,0 +1,134 @@
+{% extends 'mains.html' %}
+
+{% block content %}
+<style>
+    form {
+        width: 80%;
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    input[type=text],
+    textarea,
+    input[type=file],
+    select {
+        width: calc(100% - 22px);
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 16px;
+        resize: vertical;
+    }
+
+    textarea {
+        height: 150px;
+    }
+
+    input[type=submit],
+    .btn-secondary {
+        background-color: #4CAF50;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        width: auto;
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    .btn-secondary {
+        background-color: rgb(87, 90, 87);
+    }
+
+    input[type=submit]:hover,
+    .btn-secondary:hover {
+        opacity: 0.8;
+    }
+
+    .errorlist {
+        color: red;
+        list-style-type: none;
+        padding: 0;
+        margin-top: 5px;
+    }
+
+    .form-control.is-invalid {
+        border-color: #dc3545;
+    }
+
+    .form-control.is-valid {
+        border-color: #28a745;
+    }
+</style>
+
+<form id="blogForm" method="POST" action="#" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for field in form %}
+        <div class="mb-3">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+                <ul class="errorlist">
+                    {% for error in field.errors %}
+                        <li class="text-danger">{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            {% if field.help_text %}
+                <small class="text-muted">{{ field.help_text }}</small>
+            {% endif %}
+        </div>
+    {% endfor %}
+    <input type="submit" value="Create Blog">
+    <a href="{% url 'home' %}" class="btn-secondary">Back</a>
+</form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('blogForm');
+        const fields = form.querySelectorAll('input, textarea, select');
+
+        fields.forEach(field => {
+            field.addEventListener('input', () => {
+                if (field.checkValidity()) {
+                    field.classList.remove('is-invalid');
+                    field.classList.add('is-valid');
+                } else {
+                    field.classList.remove('is-valid');
+                    field.classList.add('is-invalid');
+                }
+            });
+        });
+
+        form.addEventListener('submit', function(event) {
+            let isValid = true;
+            fields.forEach(field => {
+                if (!field.checkValidity()) {
+                    field.classList.add('is-invalid');
+                    isValid = false;
+                }
+            });
+
+            if (!isValid) {
+                event.preventDefault();
+                alert('Please correct the errors in the form.');
+            }
+        });
+    });
+</script>
+
+{% endblock %}
